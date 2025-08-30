@@ -39,7 +39,7 @@
   - type: InteractionOutline
   - type: Clickable
 # No fixture on this base, inherit from further down for fixture
-#Commented out cause it fails uninitializedfailtest fix this shit
+
 #- type: entity
 #  parent: N14JunkWoodBase
 #  id: N14JunkMetalBase
@@ -116,7 +116,6 @@
     state: junk_table
 
 # Metal Junk
-#Commented out cause it fails uninitializedfailtest fix this shit
 #- type: entity
 #  parent: N14JunkMetalBase
 #  id: N14JunkMachine
@@ -222,8 +221,7 @@
     sprite: _Nuclear14/Structures/Furniture/junk.rsi
     state: junk_mirror
     drawdepth: Overdoors
-  
-#Commented out cause it fails uninitializedfailtest fix this shit
+
 #- type: entity
 #  parent: N14JunkMetalBase
 #  id: N14JunkClock
