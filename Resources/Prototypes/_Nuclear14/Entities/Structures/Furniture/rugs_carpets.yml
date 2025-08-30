@@ -8,6 +8,7 @@
     drawdepth: FloorTiles
   - type: Physics
     canCollide: false
+  - type: Fixtures
   - type: Damageable
     damageContainer: Inorganic
   - type: Destructible

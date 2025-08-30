@@ -35,6 +35,12 @@
     thresholds:
     - trigger:
         !type:DamageTrigger
+        damage: 400
+      behaviors:
+        - !type:DoActsBehavior
+          acts: [ "Destruction" ]
+    - trigger:
+        !type:DamageTrigger
         damage: 50
       behaviors:
       - !type:PlaySoundBehavior
@@ -51,7 +57,7 @@
             min: 2
             max: 8
   - type: Pullable
-
+  
 - type: entity
   parent: N14FloraLogBase
   id: N14FloraLog1
