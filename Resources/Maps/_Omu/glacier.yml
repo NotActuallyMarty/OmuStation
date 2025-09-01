@@ -85721,7 +85721,7 @@ entities:
     - type: Transform
       pos: 38.5,72.5
       parent: 2
-- proto: PlushieLizard
+- proto: RandomItem
   entities:
   - uid: 8658
     components:
