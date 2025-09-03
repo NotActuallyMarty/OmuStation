@@ -1,7 +1,7 @@
 - type: gameMap
   id: Glacier
   mapName: Glacier
-  mapPath: _Omu/Maps/glacier.yml #DV Original map but we are gonna make changes to it.
+  mapPath: /Maps/_Omu/glacier.yml #DV Original map but we are gonna make changes to it.
   maxRandomOffset: 0
   randomRotation: false
   minPlayers: 15
