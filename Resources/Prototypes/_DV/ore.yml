@@ -8,9 +8,3 @@
     OreSilver: 4
     OreUranium: 6
     OreArtifactFragment: 0.5
-
-- type: ore
-  id: OreBluespace
-  oreEntity: BluespaceOre1
-  minOreYield: 1
-  maxOreYield: 2

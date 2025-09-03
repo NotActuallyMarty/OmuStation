@@ -410,9 +410,9 @@
         - id: MaterialBananium1
           amount: !type:RangeNumberSelector
             range: 1, 5
-        - id: MaterialBluespace1
-          amount: !type:RangeNumberSelector
-            range: 1, 5
+        #- id: MaterialBluespace1
+        #  amount: !type:RangeNumberSelector
+        #    range: 1, 5
         - id: MaterialGunpowder
           amount: !type:RangeNumberSelector
             range: 1, 5
