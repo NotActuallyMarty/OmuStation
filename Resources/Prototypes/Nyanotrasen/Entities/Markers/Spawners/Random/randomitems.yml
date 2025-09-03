@@ -51,7 +51,7 @@
       - id: Lantern
       - id: CheapLighter
       - id: trayScanner
-      - id: FishLabeler
+      #- id: FishLabeler
       - id: SnapPop
         amount: !type:RangeNumberSelector
           range: 1, 3

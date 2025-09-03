@@ -1,7 +1,0 @@
-- type: construction
-  id: fishlabeler
-  graph: fishlabeler
-  startNode: start
-  targetNode: fishlabeler
-  category: construction-category-misc
-  objectType: Item
