@@ -396,3 +396,9 @@ Entries:
       message: Ported Nehina (The language used by Feroxi) from The Den
   id: 44
   time: '2025-09-09T02:18:10.0000000+00:00'
+- author: CliveOcelot
+  changes:
+    - type: Fix
+      message: Fixed stations having the CC shuttle whitelist added to them.
+  id: 45
+  time: '2025-09-09T16:09:39.0000000+00:00'
