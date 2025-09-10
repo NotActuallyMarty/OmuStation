@@ -128,3 +128,79 @@
   components:
   - type: PainNumbness
   globalCost: -2 # Omustation - Remake EE Traits system - global trait points cost
+
+- type: trait
+  id: Redshirt
+  name: trait-redshirt-name
+  description: trait-redshirt-desc
+  # category: Disabilities
+  category: PhysicalTraits # Omustation - Remake EE Traits system - EE traits categories
+  components:
+  - type: MobThresholds
+    thresholds:
+      0: Alive
+      100: Dead
+  globalCost: -8 # Omustation - Remake EE Traits system - global trait points cost
+
+- type: trait
+  id: SnailPaced
+  name: trait-snailpaced-name
+  description: trait-snailpaced-desc
+  # category: Disabilities
+  category: PhysicalTraits # Omustation - Remake EE Traits system - EE traits categories
+  components:
+  - type: MovespeedModifier
+    walkSpeedModifier: 0.78
+    sprintSpeedModifier: 0.78
+  globalCost: -8 # Omustation - Remake EE Traits system - global trait points cost
+
+- type: trait
+  id: OsteogenesisImperfecta
+  name: trait-osteogenesisimperfecta-name
+  description: trait-osteogenesisimperfecta-desc
+  # category: Disabilities
+  category: PhysicalTraits # Omustation - Remake EE Traits system - EE traits categories
+  components:
+  - type: MobThresholds
+    thresholds:
+      0: Alive
+      50: Critical
+      200: Dead # Probably unnecessary but eh fuck it safetynet
+  globalCost: -6 # Omustation - Remake EE Traits system - global trait points cost
+
+- type: trait
+  id: ClumsyTrait 
+  name: trait-clumsy-name
+  description: trait-clumsy-desc
+  # category: Disabilities
+  category: PhysicalTraits # Omustation - Remake EE Traits system - EE traits categories
+  components:
+  - type: Clumsy
+  globalCost: -5 # Omustation - Remake EE Traits system - global trait points cost
+
+- type: trait
+  id: Sluggish
+  name: trait-sluggish-name
+  description: trait-sluggish-desc
+  # category: Disabilities
+  category: PhysicalTraits # Omustation - Remake EE Traits system - EE traits categories
+  components:
+  - type: MovespeedModifier
+    walkSpeedModifier: 0.84
+    sprintSpeedModifier: 0.84
+  globalCost: -5 # Omustation - Remake EE Traits system - global trait points cost
+
+- type: trait
+  id: BadKnees
+  name: trait-badknees-name
+  description: trait-badknees-desc
+  # category: Disabilities
+  category: PhysicalTraits # Omustation - Remake EE Traits system - EE traits categories
+  components:
+  - type: ClothingSlowOnDamageModifier
+    modifier: 1.4
+  - type: ModifyStandingUpTime
+    multiplier: 1.4
+  - type: ClimbingComponent
+  transitionRate: 10f
+  globalCost: -5 # Omustation - Remake EE Traits system - global trait points cost
