@@ -64,6 +64,12 @@ public sealed class TraitSystem : EntitySystem
                 _whitelistSystem.IsBlacklistPass(traitPrototype.Blacklist, args.Mob))
                 continue;
 
+            // Begin Goobstation: Species trait support
+            if (traitPrototype.IncludedSpecies.Count > 0 && !traitPrototype.IncludedSpecies.Contains(args.Profile.Species) ||
+                traitPrototype.ExcludedSpecies.Contains(args.Profile.Species))
+                continue;
+            // End Goobstation: Species trait support
+
             // Add all components required by the prototype
             if (traitPrototype.Components != null) // Omustation - Remake EE Traits System - Port trait functions (make traits that don't directly give you components *possible*)
                 EntityManager.AddComponents(args.Mob, traitPrototype.Components, false);
@@ -103,7 +109,7 @@ public sealed class TraitSystem : EntitySystem
                 continue;
 
             var coords = Transform(args.Mob).Coordinates;
-            var inhandEntity = EntityManager.SpawnEntity(traitPrototype.TraitGear, coords);
+            var inhandEntity = Spawn(traitPrototype.TraitGear, coords);
             _sharedHandsSystem.TryPickup(args.Mob,
                 inhandEntity,
                 checkActionBlocker: false,

@@ -17,6 +17,7 @@ using Content.Shared.Roles; // Omustation - Remake EE Traits System - change Tra
 using Content.Shared._Omu.Traits; // Omustation - Remake EE Traits System - Port trait functions
 using Content.Shared.Whitelist;
 using Robust.Shared.Prototypes;
+using Content.Shared.Humanoid.Prototypes; // Goob: Ported from DeltaV - Species specific trait support.
 
 namespace Content.Shared.Traits;
 
