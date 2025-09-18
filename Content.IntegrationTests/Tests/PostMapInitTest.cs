@@ -234,7 +234,6 @@ namespace Content.IntegrationTests.Tests
             "Delta", // Goobstation - add Delta
             "dm01-entryway",
             "Chloris", // Goobstation
-            "Glacier", // Omu
             "Serpentcrest", // Goobstation
         };
 

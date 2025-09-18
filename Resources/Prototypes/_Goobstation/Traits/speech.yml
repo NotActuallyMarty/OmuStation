@@ -21,7 +21,6 @@
   components:
   - type: ReplacementAccent
     accent: dementia
-  countsTowardsMaxTraits: false # Omustation - Don't count accents towards max traits
 
 - type: trait
   id: ScottishAccent
@@ -32,7 +31,6 @@
   components:
   - type: ReplacementAccent
     accent: scottish
-  countsTowardsMaxTraits: false # Omustation - Don't count accents towards max traits
 
 - type: trait
   id: Bogan
@@ -43,7 +41,6 @@
   components:
   - type: ReplacementAccent
     accent: bogan
-  countsTowardsMaxTraits: false # Omustation - Don't count accents towards max traits
 
 - type: trait
   id: MedievalAccent
@@ -53,7 +50,6 @@
   cost: 1
   components:
   - type: MedievalAccent
-   countsTowardsMaxTraits: false # Omustation - Don't count accents towards max traits
 
 - type: trait
   id: NewYorkAccent
@@ -64,7 +60,6 @@
   components:
   - type: ReplacementAccent
     accent: newyork
-  countsTowardsMaxTraits: false # Omustation - Don't count accents towards max traits
 
 - type: trait
   id: british
@@ -75,4 +70,3 @@
   components:
   - type: ReplacementAccent
     accent: british
-  countsTowardsMaxTraits: false # Omustation - Don't count accents towards max traits
