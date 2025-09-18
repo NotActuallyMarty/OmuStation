@@ -179,6 +179,7 @@
     - id: AncientXenoVentsMedium # Goobstation
     - id: AncientXenoVentsHard # Goobstation
     - id: MalignRiftSpawn # DeltaV
+    - id: FloorGoblinSpawn # Goobstation
 
 - type: entityTable
   id: BasicAntagEventsTable
@@ -189,7 +190,7 @@
     - id: KingRatMigration
     - id: NinjaSpawn
     - id: ParadoxCloneSpawn
-    #- id: RevenantSpawn # removed from OMU events
+    #- id: RevenantSpawn  # GoobStation - removed till rework
     - id: SleeperAgents
     - id: ZombieOutbreak
     - id: LoneOpsSpawn
@@ -243,7 +244,7 @@
     weight: 8
     duration: 35
     chaos: # Goobstation
-      Anomaly: 100 # OMU change - make it less chaotic
+      Anomaly: 100
     eventType: Chaotic # Goobstation
   # Goobstation
   - type: GameRule
@@ -266,7 +267,7 @@
     weight: 8
     duration: 35
     chaos: # Goobstation
-      Anomaly: 100 # Omu, chaos score increased from  40
+      Anomaly: 40
     eventType: Chaotic # Goobstation
   - type: BluespaceArtifactRule
 
@@ -275,7 +276,7 @@
   parent: BaseGameRule
   components:
   - type: StationEvent
-    weight: 4 # OMU change - make it more likely to balance out other anom chaos events
+    weight: 2
     reoccurrenceDelay: 5
     earliestStart: 1
     duration: 1
@@ -355,7 +356,7 @@
   id: DragonSpawn
   components:
   - type: StationEvent
-    weight: 2 # Omu, weight decreased from 3
+    weight: 3
     earliestStart: 45
     reoccurrenceDelay: 20
     minimumPlayers: 60
@@ -369,7 +370,7 @@
     eventType: HostilesSpawn # Goobstation
   # Goobstation
   - type: GameRule
-    chaosScore: 800 # OMU change - make chaos cost higher
+    chaosScore: 600
   - type: SpaceSpawnRule
     spawnDistance: 0
   - type: AntagSpawner
@@ -394,7 +395,7 @@
   id: NinjaSpawn
   components:
   - type: StationEvent
-    weight: 4 # OMU change - make ninja less likely
+    weight: 6
     duration: null
     earliestStart: 45
     reoccurrenceDelay: 20
@@ -408,7 +409,7 @@
     eventType: HostilesSpawn # Goobstation
   # Goobstation
   - type: GameRule
-    chaosScore: 500 # OMU change - make chaos score cost higher
+    chaosScore: 300
   - type: SpaceSpawnRule
   - type: AntagLoadProfileRule
     # Goobstation start
@@ -463,7 +464,7 @@
   id: ParadoxCloneSpawn
   components:
   - type: StationEvent
-    weight: 10 # OMU change - Make paradox more likely
+    weight: 5
     duration: null
     earliestStart: 20
     reoccurrenceDelay: 20
@@ -504,27 +505,27 @@
       mindRoles:
       - MindRoleParadoxClone
 
-- type: entity
-  parent: BaseGameRule
-  id: RevenantSpawn
-  components:
-  - type: StationEvent
-    weight: 3.5
-    duration: 1
-    earliestStart: 30
-    minimumPlayers: 100 # OMU change - removes it from viable spawns (outside of ninja)
-    chaos: # Goobstation
-      Hostile: 20
-      Friend: 20
-      Combat: 40
-      Death: 100
-      Medical: 100
-    eventType: HostilesSpawn # Goobstation
-  # Goobstation
-  - type: GameRule
-    chaosScore: 450
-  - type: RandomSpawnRule
-    prototype: MobRevenant
+#- type: entity   Goobstaion start - disabled until rework
+#  parent: BaseGameRule
+#  id: RevenantSpawn
+#  components:
+#  - type: StationEvent
+#    weight: 3.5
+#    duration: 1
+#    earliestStart: 30
+#    minimumPlayers: 20
+#    chaos: # Goobstation
+#      Hostile: 20
+#      Friend: 20
+#      Combat: 40
+#      Death: 100
+#      Medical: 100
+#    eventType: HostilesSpawn # Goobstation
+#  # Goobstation
+#  - type: GameRule
+#    chaosScore: 450
+#  - type: RandomSpawnRule
+#    prototype: MobRevenant      goobstation end
 
 # Goob - wiz of our own
 #- type: entity
@@ -833,18 +834,18 @@
   id: LoneOpsSpawn
   components:
   - type: StationEvent
-    earliestStart: 60 # OMU change - make lone-ops spawn later
+    earliestStart: 35
     weight: 5.5
     minimumPlayers: 20
     duration: 1
     chaos: # Goobstation
-      Hostile: 80 # Omu, chaos score increased from 60
-      Medical: 90 # Omu, chaos score increased from 75
-      Death: 120 # OMU change, make chaos points more in line with the danger it poses
+      Hostile: 60
+      Medical: 75
+      Death: 100
     eventType: HostilesSpawn # Goobstation
   # Goobstation
   - type: GameRule
-    chaosScore: 900 # OMU change - raises chaos cost
+    chaosScore: 700
   - type: RuleGrids
   - type: LoadMapRule
     gridPath: /Maps/Shuttles/ShuttleEvent/striker.yml

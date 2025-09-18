@@ -78,6 +78,7 @@
       - SpaceItalian
       - Cheval
 
+
 - type: entity
   parent: BaseSubdermalImplant
   id: ChevalTranslatorImplant
