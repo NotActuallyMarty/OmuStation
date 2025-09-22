@@ -235,6 +235,7 @@ namespace Content.IntegrationTests.Tests
             "dm01-entryway",
             "Chloris", // Goobstation
             "Serpentcrest", // Goobstation
+            "Glacier", // Omu
         };
 
         /// <summary>
