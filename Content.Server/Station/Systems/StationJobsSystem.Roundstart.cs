@@ -27,6 +27,7 @@ using Content.Server.Antag.Components;
 using Content.Server.Players.PlayTimeTracking;
 using Content.Server.Station.Components;
 using Content.Server.Station.Events;
+using Content.Shared.Administration.Managers;
 using Content.Shared.Preferences;
 using Content.Shared.Roles;
 using Robust.Server.Player;
@@ -44,6 +45,7 @@ public sealed partial class StationJobsSystem
     [Dependency] private readonly IPrototypeManager _prototypeManager = default!;
     [Dependency] private readonly IBanManager _banManager = default!;
     [Dependency] private readonly AntagSelectionSystem _antag = default!;
+    [Dependency] private readonly IAdminManager _adminManager = default!;   // Omu - adminpity
 
     private Dictionary<int, HashSet<string>> _jobsByWeight = default!;
     private List<int> _orderedWeights = default!;
@@ -92,6 +94,20 @@ public sealed partial class StationJobsSystem
 
         // Player <-> (job, station)
         var assigned = new Dictionary<NetUserId, (ProtoId<JobPrototype>?, EntityUid)>(profiles.Count);
+
+        //Omustation edit start.
+
+        // Build a set of admin players so they are assigned first.
+        var adminPlayers = new HashSet<NetUserId>();
+        foreach (var playerId in profiles.Keys)
+        {
+            if (_player.TryGetSessionById(playerId, out var session) &&
+                _adminManager.IsAdmin(session, false)) //deadminned admins get no priority, change to true to make it otherwise.
+            {
+                adminPlayers.Add(playerId);
+            }
+        }
+        //Omustation edit end.
 
         // The jobs left on the stations. This collection is modified as jobs are assigned to track what's available.
         var stationJobs = new Dictionary<EntityUid, Dictionary<ProtoId<JobPrototype>, int?>>();
@@ -272,7 +288,21 @@ public sealed partial class StationJobsSystem
                                 continue;
 
                             // Picking players it finds that have the job set.
-                            var player = _random.Pick(jobPlayerOptions[job]);
+
+                            // Omustation edit start
+
+                            NetUserId player;
+                            // cooked ass linq
+                            var adminPool = jobPlayerOptions[job].Where(candidate => adminPlayers.Contains(candidate)).ToList();
+
+                            // At least one admin can take this job: pick a random admin.
+                            player = adminPool.Count > 0
+                                ? _random.Pick(adminPool)
+                                :
+                                // No admins here, pick from all remaining candidates as before.
+                                _random.Pick(jobPlayerOptions[job]);
+                            // Omustation edit end.
+
                             AssignPlayer(player, job, station);
                             stationShares[station]--;
 
