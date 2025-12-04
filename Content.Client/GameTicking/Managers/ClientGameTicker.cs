@@ -81,6 +81,7 @@ namespace Content.Client.GameTicking.Managers
         [ViewVariables] public string? InGameInfoBlob { get; private set; }
         [ViewVariables] public TimeSpan StartTime { get; private set; }
         [ViewVariables] public new bool Paused { get; private set; }
+        [ViewVariables] public bool IsAdminPityOn { get; private set; } // Omu Adminpity
 
         [ViewVariables] public IReadOnlyDictionary<NetEntity, Dictionary<ProtoId<JobPrototype>, int?>> JobsAvailable => _jobsAvailable;
         [ViewVariables] public IReadOnlyDictionary<NetEntity, string> StationNames => _stationNames;
@@ -174,6 +175,7 @@ namespace Content.Client.GameTicking.Managers
             AreWeReady = message.YouAreReady;
             LobbyBackground = message.LobbyBackground;
             Paused = message.Paused;
+            IsAdminPityOn = message.EnabledAdminPityStatus; // Omu Adminpity
 
             LobbyStatusUpdated?.Invoke();
         }

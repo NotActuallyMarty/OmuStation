@@ -83,6 +83,7 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
 using Content.Client._RMC14.LinkAccount;
+using Content.Client.Administration.Managers;
 using Content.Client.Audio;
 using Content.Client.GameTicking.Managers;
 using Content.Client.LateJoin;
@@ -116,6 +117,7 @@ namespace Content.Client.Lobby
         [Dependency] private readonly IVoteManager _voteManager = default!;
         [Dependency] private readonly ICommonCurrencyManager _serverCur = default!; // Goobstation - server currency
         [Dependency] private readonly IPrototypeManager _protoMan = default!; // Goobstation - credits
+        [Dependency] private readonly IClientAdminManager _clientAdminManager = default!; // Omu adminpity
         [Dependency] private readonly LinkAccountManager _linkAccount = default!; // RMC - Patreon
         [Dependency] private readonly ClientsidePlaytimeTrackingManager _playtimeTracking = default!;
 
@@ -162,6 +164,10 @@ namespace Content.Client.Lobby
             Lobby.CharacterPreview.PatronPerks.OnPressed += OnPatronPerksPressed;
             Lobby.ReadyButton.OnPressed += OnReadyPressed;
             Lobby.ReadyButton.OnToggled += OnReadyToggled;
+            // Omu start adminpity
+            Lobby.AdminPityButton.OnPressed += OnAdminPityPressed;
+            Lobby.AdminPityButton.OnToggled += OnAdminPityButtonToggled;
+            // Omu end adminpity
 
             _gameTicker.InfoBlobUpdated += UpdateLobbyUi;
             _gameTicker.LobbyStatusUpdated += LobbyStatusUpdated;
@@ -186,6 +192,10 @@ namespace Content.Client.Lobby
             Lobby.CharacterPreview.PatronPerks.OnPressed -= OnPatronPerksPressed;
             Lobby!.ReadyButton.OnPressed -= OnReadyPressed;
             Lobby!.ReadyButton.OnToggled -= OnReadyToggled;
+            // Omu start adminpity
+            Lobby!.AdminPityButton.OnPressed -= OnAdminPityPressed;
+            Lobby!.AdminPityButton.OnToggled -= OnAdminPityButtonToggled;
+            // Omu end adminpity
 
             Lobby = null;
         }
@@ -274,11 +284,13 @@ namespace Content.Client.Lobby
         private void LobbyLateJoinStatusUpdated()
         {
             Lobby!.ReadyButton.Disabled = _gameTicker.DisallowedLateJoin;
+            Lobby!.AdminPityButton.Disabled = _gameTicker.DisallowedLateJoin; // omu edit - eh kinda pointless but anyway
         }
 
         private void UpdateLobbyUi()
         {
             Lobby!.CharacterPreview.PatronPerks.Visible = _linkAccount.CanViewPatronPerks();
+            Lobby!.AdminPityButton.Visible = _clientAdminManager.IsAdmin(); // Omu adminpity
 
             if (_gameTicker.IsGameStarted)
             {
@@ -286,6 +298,11 @@ namespace Content.Client.Lobby
                 Lobby!.ReadyButton.ToggleMode = false;
                 Lobby!.ReadyButton.Pressed = false;
                 Lobby!.ObserveButton.Disabled = false;
+                // Omu start adminpity
+                Lobby!.AdminPityButton.Text = Loc.GetString("adminpity-button-forcejoin-state");
+                Lobby!.AdminPityButton.ToggleMode = false;
+                Lobby!.AdminPityButton.Pressed = false;
+                // Omu end adminpity
             }
             else
             {
@@ -295,6 +312,12 @@ namespace Content.Client.Lobby
                 Lobby!.ReadyButton.Disabled = false;
                 Lobby!.ReadyButton.Pressed = _gameTicker.AreWeReady;
                 Lobby!.ObserveButton.Disabled = true;
+                // Omu start adminpity
+                Lobby!.AdminPityButton.Text = Loc.GetString(Lobby!.ReadyButton.Pressed ? "adminpity-button-enabled-state": "adminpity-button-disabled-state");
+                Lobby!.AdminPityButton.ToggleMode = true;
+                Lobby!.AdminPityButton.Disabled = false;
+                Lobby!.AdminPityButton.Pressed = _gameTicker.IsAdminPityOn;
+                //Omu end adminpity
             }
 
             if (_gameTicker.ServerInfoBlob != null)
@@ -393,6 +416,28 @@ namespace Content.Client.Lobby
 
             _consoleHost.ExecuteCommand($"toggleready {newReady}");
         }
+
+        // Omu start
+        private void OnAdminPityButtonToggled(BaseButton.ButtonToggledEventArgs args)
+        {
+            if (_gameTicker.IsGameStarted)
+            {
+                return;
+            }
+
+            _consoleHost.ExecuteCommand($"toggleadminpity {args.Pressed}");
+        }
+
+        private void OnAdminPityPressed(BaseButton.ButtonEventArgs args)
+        {
+            if (!_gameTicker.IsGameStarted)
+            {
+                return;
+            }
+
+            new LateJoinGui().OpenCentered();
+        }
+        // Omu end
 
         private void UpdatePlayerBalance() // Goobstation - Goob Coin
         {

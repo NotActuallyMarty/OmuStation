@@ -466,6 +466,8 @@ namespace Content.Server.GameTicking
                 if (LobbyEnabled && status != PlayerGameStatus.ReadyToPlay) continue;
                 if (!_playerManager.TryGetSessionById(userId, out var session)) continue;
 
+
+
                 if (autoDeAdmin && _adminManager.IsAdmin(session))
                 {
                     _adminManager.DeAdmin(session);

@@ -68,6 +68,9 @@ namespace Content.Server.GameTicking
         private readonly Dictionary<NetUserId, PlayerGameStatus> _playerGameStatuses = new();
 
         [ViewVariables]
+        private readonly Dictionary<NetUserId, AdminPityStatus> _adminPityStatuses = new(); // Omu
+
+        [ViewVariables]
         private TimeSpan _roundStartTime;
 
         /// <summary>
@@ -89,6 +92,9 @@ namespace Content.Server.GameTicking
         /// The game status of a players user Id. May contain disconnected players
         /// </summary>
         public IReadOnlyDictionary<NetUserId, PlayerGameStatus> PlayerGameStatuses => _playerGameStatuses;
+
+        [ViewVariables]
+        public IReadOnlyDictionary<NetUserId, AdminPityStatus> AdminPityStatuses => _adminPityStatuses; // Omu
 
         public void UpdateInfoText()
         {
@@ -155,7 +161,8 @@ namespace Content.Server.GameTicking
         private TickerLobbyStatusEvent GetStatusMsg(ICommonSession session)
         {
             _playerGameStatuses.TryGetValue(session.UserId, out var status);
-            return new TickerLobbyStatusEvent(RunLevel != GameRunLevel.PreRoundLobby, LobbyBackground, status == PlayerGameStatus.ReadyToPlay, _roundStartTime, RoundPreloadTime, RoundStartTimeSpan, Paused);
+            _adminPityStatuses.TryGetValue(session.UserId, out var pityStatus); // Omu Adminpity
+            return new TickerLobbyStatusEvent(RunLevel != GameRunLevel.PreRoundLobby, LobbyBackground, status == PlayerGameStatus.ReadyToPlay, _roundStartTime, RoundPreloadTime, RoundStartTimeSpan, Paused, pityStatus == AdminPityStatus.Enabled);
         }
 
         private void SendStatusToAll()
@@ -244,6 +251,21 @@ namespace Content.Server.GameTicking
             // update server info to reflect new ready count
             UpdateInfoText();
         }
+        // Omu start
+        public void ToggleAdminPity(ICommonSession player, bool pity)
+        {
+            if (!_playerGameStatuses.ContainsKey(player.UserId)
+                || !_userDb.IsLoadComplete(player)
+                || _adminManager.ActiveAdmins.All(admin => admin.UserId != player.UserId) // cursed linq
+                || RunLevel != GameRunLevel.PreRoundLobby
+                )
+                return;
+
+            var pityStatus = pity ? AdminPityStatus.Enabled : AdminPityStatus.Disabled;
+            _adminPityStatuses[player.UserId] = pity ? AdminPityStatus.Enabled : AdminPityStatus.Disabled;
+            RaiseNetworkEvent(GetStatusMsg(player), player.Channel);
+        }
+        // Omu end
 
         public bool UserHasJoinedGame(ICommonSession session)
             => UserHasJoinedGame(session.UserId);

@@ -151,14 +151,16 @@ namespace Content.Shared.GameTicking
     {
         public bool IsRoundStarted { get; }
         public ProtoId<LobbyBackgroundPrototype>? LobbyBackground { get; } // Goobstation - Lobby Background Credits
+        public bool EnabledAdminPityStatus { get; } // Omu Adminpity
         public bool YouAreReady { get; }
         // UTC.
         public TimeSpan StartTime { get; }
         public TimeSpan RoundStartTimeSpan { get; }
         public bool Paused { get; }
 
-        // Goobstation - Lobby Background Credits
-        public TickerLobbyStatusEvent(bool isRoundStarted, ProtoId<LobbyBackgroundPrototype>? lobbyBackground, bool youAreReady, TimeSpan startTime, TimeSpan preloadTime, TimeSpan roundStartTimeSpan, bool paused)
+
+        // Goobstation - Lobby Background Credits // Omu Adminpity
+        public TickerLobbyStatusEvent(bool isRoundStarted, ProtoId<LobbyBackgroundPrototype>? lobbyBackground, bool youAreReady, TimeSpan startTime, TimeSpan preloadTime, TimeSpan roundStartTimeSpan, bool paused, bool enabledAdminPityStatus)
         {
             IsRoundStarted = isRoundStarted;
             LobbyBackground = lobbyBackground;
@@ -166,6 +168,7 @@ namespace Content.Shared.GameTicking
             StartTime = startTime;
             RoundStartTimeSpan = roundStartTimeSpan;
             Paused = paused;
+            EnabledAdminPityStatus = enabledAdminPityStatus; // Omu
         }
     }
 
@@ -294,4 +297,13 @@ namespace Content.Shared.GameTicking
         ReadyToPlay,
         JoinedGame,
     }
+    // Omu start
+    [Serializable, NetSerializable]
+    public enum AdminPityStatus : sbyte
+    {
+        Disabled = 0,
+        Enabled,
+        Unavailable, //ingame, no tokens, etc
+    }
+    // Omu end
 }
