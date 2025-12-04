@@ -1,47 +1,49 @@
-// SPDX-FileCopyrightText: 2021 Acruid <shatter66@gmail.com>
-// SPDX-FileCopyrightText: 2021 DrSmugleaf <DrSmugleaf@users.noreply.github.com>
-// SPDX-FileCopyrightText: 2021 Vera Aguilera Puerto <6766154+Zumorica@users.noreply.github.com>
-// SPDX-FileCopyrightText: 2021 metalgearsloth <metalgearsloth@gmail.com>
-// SPDX-FileCopyrightText: 2022 Duddino <47313600+Duddino@users.noreply.github.com>
-// SPDX-FileCopyrightText: 2022 mirrorcult <lunarautomaton6@gmail.com>
-// SPDX-FileCopyrightText: 2022 wrexbe <81056464+wrexbe@users.noreply.github.com>
-// SPDX-FileCopyrightText: 2023 Leon Friedrich <60421075+ElectroJr@users.noreply.github.com>
-// SPDX-FileCopyrightText: 2023 metalgearsloth <31366439+metalgearsloth@users.noreply.github.com>
-// SPDX-FileCopyrightText: 2024 Kara <lunarautomaton6@gmail.com>
-// SPDX-FileCopyrightText: 2025 Aiden <28298836+Aidenkrz@users.noreply.github.com>
-//
-// SPDX-License-Identifier: AGPL-3.0-or-later
-
+using Content.Server.Administration;
 using Content.Server.GameTicking;
 using Content.Shared.Administration;
+using Content.Shared.GameTicking;
+using Robust.Server.Player;
 using Robust.Shared.Console;
+
 
 namespace Content.Goobstation.Server.Administration.Commands
 {
-    [AnyCommand]
-    sealed class ToggleAdminPityCommand : IConsoleCommand
+    [AdminCommand(AdminFlags.Spawn)]
+    public sealed class ToggleAdminPityCommand : IConsoleCommand
     {
-        [Dependency] private readonly IEntityManager _e = default!;
-
         public string Command => "toggleadminpity";
-        public string Description => "";
-        public string Help => "";
+        public string Description => Loc.GetString("adminpity-command-description");
+        public string Help =>  Loc.GetString("adminpity-command-help");
 
         public void Execute(IConsoleShell shell, string argStr, string[] args)
         {
-            var player = shell.Player;
-            if (args.Length != 1)
-            {
-                shell.WriteError(Loc.GetString("shell-wrong-arguments-number"));
+            var _entityManager = IoCManager.Resolve<IEntityManager>();
+            var _playerManager = IoCManager.Resolve<IPlayerManager>();
+            var ticker = _entityManager.System<GameTicker>();
+            if (shell.Player == null)
                 return;
-            }
-            if (player == null)
+            switch (args.Length)
             {
-                return;
+                case 0: // Toggle to opposite state
+                {
+                    if (!ticker.AdminPityStatuses.TryGetValue(shell.Player.UserId, out var pityStatus))
+                        pityStatus = AdminPityStatus.Disabled; // default for first-time toggle
+
+                    if (pityStatus == AdminPityStatus.Unavailable)
+                    {
+                        shell.WriteError(Loc.GetString("adminpity-command-used-while-unavailable"));
+                        return;
+                    }
+
+                    ticker.ToggleAdminPity(shell.Player, pityStatus != AdminPityStatus.Enabled);
+                    return;
+                }
+                case > 1: // Set state
+                    shell.WriteError(Loc.GetString("shell-wrong-arguments-number"));
+                    return;
             }
 
-            var ticker = _e.System<GameTicker>();
-            ticker.ToggleAdminPity(player, bool.Parse(args[0]));
+            ticker.ToggleAdminPity(shell.Player, bool.Parse(args[0]));
         }
     }
 }

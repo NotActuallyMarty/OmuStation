@@ -299,9 +299,12 @@ namespace Content.Client.Lobby
                 Lobby!.ReadyButton.Pressed = false;
                 Lobby!.ObserveButton.Disabled = false;
                 // Omu start adminpity
-                Lobby!.AdminPityButton.Text = Loc.GetString("adminpity-button-forcejoin-state");
-                Lobby!.AdminPityButton.ToggleMode = false;
-                Lobby!.AdminPityButton.Pressed = false;
+                if (_clientAdminManager.IsAdmin())
+                {
+                    Lobby!.AdminPityButton.Text = Loc.GetString("adminpity-button-forcejoin-state");
+                    Lobby!.AdminPityButton.ToggleMode = false;
+                    Lobby!.AdminPityButton.Pressed = false;
+                }
                 // Omu end adminpity
             }
             else
@@ -313,10 +316,15 @@ namespace Content.Client.Lobby
                 Lobby!.ReadyButton.Pressed = _gameTicker.AreWeReady;
                 Lobby!.ObserveButton.Disabled = true;
                 // Omu start adminpity
-                Lobby!.AdminPityButton.Text = Loc.GetString(Lobby!.ReadyButton.Pressed ? "adminpity-button-enabled-state": "adminpity-button-disabled-state");
-                Lobby!.AdminPityButton.ToggleMode = true;
-                Lobby!.AdminPityButton.Disabled = false;
-                Lobby!.AdminPityButton.Pressed = _gameTicker.IsAdminPityOn;
+                if (_clientAdminManager.IsAdmin())
+                {
+                    Lobby!.AdminPityButton.Text = Loc.GetString(Lobby!.AdminPityButton.Pressed
+                        ? "adminpity-button-enabled-state"
+                        : "adminpity-button-disabled-state");
+                    Lobby!.AdminPityButton.ToggleMode = true;
+                    Lobby!.AdminPityButton.Disabled = false;
+                    Lobby!.AdminPityButton.Pressed = _gameTicker.IsAdminPityOn;
+                }
                 //Omu end adminpity
             }
 
@@ -426,6 +434,7 @@ namespace Content.Client.Lobby
             }
 
             _consoleHost.ExecuteCommand($"toggleadminpity {args.Pressed}");
+            //UpdateLobbyUi();
         }
 
         private void OnAdminPityPressed(BaseButton.ButtonEventArgs args)

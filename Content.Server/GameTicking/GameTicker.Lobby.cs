@@ -264,6 +264,7 @@ namespace Content.Server.GameTicking
             var pityStatus = pity ? AdminPityStatus.Enabled : AdminPityStatus.Disabled;
             _adminPityStatuses[player.UserId] = pity ? AdminPityStatus.Enabled : AdminPityStatus.Disabled;
             RaiseNetworkEvent(GetStatusMsg(player), player.Channel);
+            UpdateInfoText();
         }
         // Omu end
 
