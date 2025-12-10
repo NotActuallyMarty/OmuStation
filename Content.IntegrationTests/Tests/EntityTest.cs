@@ -57,15 +57,18 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
 using System.Text;
+using Content.Server.NPC.Pathfinding;
 using Robust.Shared;
 using Robust.Shared.Audio.Components;
 using Robust.Shared.Configuration;
 using Robust.Shared.GameObjects;
 using Robust.Shared.Log;
 using Robust.Shared.Map;
+using Robust.Shared.Map.Components;
 using Robust.Shared.Maths;
 using Robust.Shared.Prototypes;
 using Robust.Shared.Serialization.Manager.Attributes;
+using Robust.UnitTesting;
 
 namespace Content.IntegrationTests.Tests
 {
@@ -266,6 +269,8 @@ namespace Content.IntegrationTests.Tests
             var mapManager = server.ResolveDependency<IMapManager>();
             var sEntMan = server.ResolveDependency<IEntityManager>();
             var mapSys = server.System<SharedMapSystem>();
+            var pathfinder = server.System<PathfindingSystem>();
+
 
             Assert.That(cfg.GetCVar(CVars.NetPVS), Is.False);
 
@@ -275,25 +280,87 @@ namespace Content.IntegrationTests.Tests
                 .Where(p => !pair.IsTestPrototype(p))
                 .Where(p => !p.Components.ContainsKey("MapGrid")) // This will smash stuff otherwise.
                 .Where(p => !p.Components.ContainsKey("MobReplacementRule")) // goob edit - fuck them mimics
-                .Where(p => !p.Components.ContainsKey("Supermatter")) // Goobstation - Supermatter eats everything, oh no!
+                .Where(p => !p.Components.ContainsKey("Supermatter")) // Goobstation - Supermatter eats everything, oh no! FtlVisualizerEntity
+                .Where(p => !p.Components.ContainsKey("FtlVisualizer"))
+                .Where(p => !p.Components.ContainsKey("Audio"))
+                .Where(p => !p.Components.ContainsKey("GameRule"))
+                .Where(p => !p.Components.ContainsKey("ConditionalSpawner"))
                 .Select(p => p.ID)
                 .ToList();
 
-            await server.WaitPost(() =>
-            {
-                foreach (var protoId in protoIds)
-                {
-                    mapSys.CreateMap(out var mapId);
-                    var grid = mapManager.CreateGridEntity(mapId);
-                    var ent = sEntMan.SpawnEntity(protoId, new EntityCoordinates(grid.Owner, 0.5f, 0.5f));
-                    foreach (var (_, component) in sEntMan.GetNetComponents(ent))
-                    {
-                        sEntMan.Dirty(ent, component);
-                    }
-                }
-            });
+    pathfinder.PauseUpdating = true;
+    var gridMap = new Dictionary<EntityUid, (EntityUid EntityUid, string Prototype)>();
 
-            await pair.RunTicksSync(15);
+    await server.WaitPost(() =>
+    {
+        foreach (var proto in protoIds)
+        {
+            mapSys.CreateMap(out var mapId);
+            var grid = mapManager.CreateGridEntity(mapId);
+            var gridUid = grid.Owner;
+
+            var ent = sEntMan.SpawnEntity(proto, new EntityCoordinates(gridUid, 0.5f, 0.5f));
+
+            gridMap[gridUid] = (ent, proto);
+
+            foreach (var (_, comp) in sEntMan.GetNetComponents(ent))
+                sEntMan.Dirty(ent, comp);
+        }
+    });
+
+    await TestContext.Progress.WriteLineAsync(
+        $"Spawned {gridMap.Count} grid/entity pairs."
+    );
+
+    for (var i = 0; i < 15; i++)
+    {
+        await pair.RunTicksSync(1);
+
+        var logs = new List<string>();
+        var deletedThisTick = 0;
+
+        await server.WaitPost(() =>
+        {
+            var toRemove = new List<EntityUid>();
+
+            foreach (var (gridUid, info) in gridMap.ToArray())
+            {
+                var entUid = info.EntityUid;
+                var proto = info.Prototype;
+
+                if (!sEntMan.EntityExists(entUid))
+                {
+                    toRemove.Add(gridUid);
+                    continue;
+                }
+
+                foreach (var (_, comp) in sEntMan.GetNetComponents(entUid))
+                    sEntMan.Dirty(entUid, comp);
+            }
+
+            foreach (var gridUid in toRemove)
+            {
+                if (!gridMap.TryGetValue(gridUid, out var info))
+                    continue;
+
+                var proto = info.Prototype;
+
+                gridMap.Remove(gridUid);
+
+                if (sEntMan.EntityExists(gridUid))
+                    sEntMan.DeleteEntity(gridUid);
+
+                logs.Add($"Tick {i + 1}: Deleted empty grid {gridUid} (original prototype: {proto})");
+                deletedThisTick++;
+            }
+
+            logs.Add($"Tick {i + 1}: Active grids remaining: {gridMap.Count}, deleted this tick: {deletedThisTick}");
+        });
+
+        foreach (var msg in logs)
+            await TestContext.Progress.WriteLineAsync(msg);
+    }
+
 
             // Make sure the client actually received the entities
             // 500 is completely arbitrary. Note that the client & sever entity counts aren't expected to match.

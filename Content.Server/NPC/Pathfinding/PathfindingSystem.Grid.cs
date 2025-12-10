@@ -17,9 +17,11 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
 using System.Diagnostics.CodeAnalysis;
+using System.Linq;
 using System.Numerics;
 using System.Threading;
 using System.Threading.Tasks;
+using Content.Server.NPC.HTN;
 using Content.Shared.NPC;
 using Content.Shared.Physics;
 using Robust.Shared.Collections;
@@ -435,6 +437,19 @@ public sealed partial class PathfindingSystem
         // Need to get the relevant polygons in each tile.
         // If we wanted to create a larger navmesh we could triangulate these points but in our case we're just going
         // to treat them as tile-based.
+
+        // Omu start, if we dont have NPCs just dont do pathfinding
+        // todo omu remove this if we ever optimize pathfinder
+        var npcEntities = new HashSet<Entity<HTNComponent>>();
+        _lookup.GetGridEntities(grid.Owner, npcEntities);
+
+        if (npcEntities.Count == 0)
+        {
+            SendBreadcrumbs(chunk, grid);
+            return;
+        }
+        // Omu end
+
         for (var x = 0; x < ChunkSize; x++)
         {
             for (var y = 0; y < ChunkSize; y++)
