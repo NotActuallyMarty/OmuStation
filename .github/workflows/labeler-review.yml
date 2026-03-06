@@ -22,12 +22,11 @@ jobs:
       - name: Create JSON File
         id: curling-reviews
         env:
-          # Token is passed as an environment variable, not inside the 'run' text
           TOKEN: ${{ secrets.BOT_TOKEN }}
+          PR_NUMBER: ${{ github.event.pull_request.number }}
+          OWNER: ${{ github.repository_owner }}
+          REPO: ${{ github.event.repository.name }}
         run: |
-          PR_NUMBER=${{ github.event.pull_request.number }}
-          OWNER=${{ github.repository_owner }}
-          REPO=${{ github.event.repository.name }}
           # Fetch the reviews and place them into a json file.
           curl -o reviews.json -L \
                 -H "Accept: application/vnd.github+json" \
