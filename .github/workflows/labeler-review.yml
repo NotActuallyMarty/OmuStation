@@ -44,7 +44,7 @@ jobs:
           echo "::set-output name=approvals::$APPROVALS"
 
       - name: Add Approved Label if Enough Approvals
-        if: steps.check-approvals.outputs.approvals >= 0  # Change the threshold here
+        if: steps.check-approvals.outputs.approvals >= 2  # Change the threshold here
         uses: actions-ecosystem/action-add-labels@v1
         env:
           github_token: ${{ secrets.GITHUB_TOKEN }}
@@ -62,7 +62,7 @@ jobs:
             "S: Needs Second Approval"
 
       - name: Add Second Approval Requirement on Approval
-        if: steps.check-approvals.outputs.approvals == 1
+        if: steps.check-approvals.outputs.approvals == 0
         uses: actions-ecosystem/action-add-labels@v1
         env:
           github_token: ${{ secrets.GITHUB_TOKEN }}
