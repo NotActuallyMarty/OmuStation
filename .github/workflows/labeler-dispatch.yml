@@ -1,8 +1,8 @@
 name: Review Trigger
 
 on:
-  pull_request_review:
-    types: [submitted, edited, dismissed]
+  pull_request_review_comment:
+    types: [edited]
 
 jobs:
   noop:
