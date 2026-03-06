@@ -2,7 +2,7 @@ name: Review Trigger
 
 on:
   pull_request_review_comment:
-    types: [edited]
+    types: [created, edited]
 
 jobs:
   noop:
