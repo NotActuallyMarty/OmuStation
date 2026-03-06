@@ -1,0 +1,12 @@
+name: Review Trigger
+
+on:
+  pull_request_review_comment:
+    types: [edited]
+
+jobs:
+  noop:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Dummy step
+        run: echo "This is so incredibly fucking stupid"
