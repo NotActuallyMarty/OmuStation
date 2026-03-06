@@ -11,7 +11,7 @@ jobs:
   label-on-approval:
     if: |
       github.event.workflow_run.name == 'Review Trigger' &&
-      github.event.workflow_run.event == 'pull_request_review' &&
+      github.event.workflow_run.event == 'pull_request_review_comment' &&
       github.event.workflow_run.repository.full_name == github.repository &&
       github.event.workflow_run.pull_requests[0].number != null
     runs-on: ubuntu-latest
@@ -77,7 +77,7 @@ jobs:
         echo "approvals=$APPROVALS" >> $GITHUB_OUTPUT
 
     - name: Add Approved Label if Enough Approvals
-      if: steps.check-approvals.outputs.approvals >= 2
+      if: steps.check-approvals.outputs.approvals == 2
       uses: actions-ecosystem/action-add-labels@v1
       env:
         github_token: ${{ secrets.GITHUB_TOKEN }}
@@ -117,7 +117,7 @@ jobs:
         labels: "S: Approved"
 
     - name: Remove Labels if No Approval
-      if: steps.check-approvals.outputs.approvals < 1
+      if: steps.check-approvals.outputs.approvals == 1
       uses: actions-ecosystem/action-remove-labels@v1
       env:
         github_token: ${{ secrets.GITHUB_TOKEN }}
