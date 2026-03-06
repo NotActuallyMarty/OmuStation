@@ -9,7 +9,7 @@
 name: "Review Trigger"
 
 on:
-  pull_request_review:
+  pull_request_review_comment:
     types: [edited]
 
 jobs:
