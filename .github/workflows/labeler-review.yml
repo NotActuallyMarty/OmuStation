@@ -7,9 +7,7 @@
 
 name: "Labels: Approved"
 
-on:
-  pull_request_review:
-    types: [submitted]
+on: pull_request_target
 
 jobs:
   label-on-approval:
@@ -25,7 +23,7 @@ jobs:
           PR_NUMBER=${{ github.event.pull_request.number }}
           OWNER=${{ github.repository_owner }}
           REPO=${{ github.event.repository.name }}
-          TOKEN=${{ secrets.GITHUB_TOKEN }}
+          TOKEN=${{ secrets.BOT_TOKEN }}
 
           # Fetch the reviews and place them into a json file.
           curl -o reviews.json -L \
@@ -47,7 +45,7 @@ jobs:
         if: steps.check-approvals.outputs.approvals >= 2  # Change the threshold here
         uses: actions-ecosystem/action-add-labels@v1
         env:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
+          github_token: ${{ secrets.BOT_TOKEN }}
         with:
           labels: "S: Approved"
 
@@ -55,7 +53,7 @@ jobs:
         if: steps.check-approvals.outputs.approval >= 2
         uses: actions-ecosystem/action-remove-labels@v1
         env:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
+          github_token: ${{ secrets.BOT_TOKEN }}
         with:
           labels: |
             "S: Needs Review"
@@ -65,7 +63,7 @@ jobs:
         if: steps.check-approvals.outputs.approvals == 1
         uses: actions-ecosystem/action-add-labels@v1
         env:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
+          github_token: ${{ secrets.BOT_TOKEN }}
         with:
           labels: |
             "S: Needs Second Approval"
@@ -75,7 +73,7 @@ jobs:
         if: steps.check-approvals.outputs.approvals == 1
         uses: actions-ecosystem/action-remove-labels@v1
         env:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
+          github_token: ${{ secrets.BOT_TOKEN }}
         with:
           labels: "S: Approved"
 
@@ -83,7 +81,7 @@ jobs:
         if: steps.check-approvals.outputs.approvals < 1
         uses: actions-ecosystem/action-remove-labels@v1
         env:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
+          github_token: ${{ secrets.BOT_TOKEN }}
         with:
           labels: |
             "S: Approved"
