@@ -1,4 +1,4 @@
-name: Review Trigger
+name: "Review Trigger"
 
 on:
   pull_request_review_comment:
