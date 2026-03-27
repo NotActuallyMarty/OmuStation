@@ -18,3 +18,25 @@ oni-prying-door-1 = {$entityIdentityName} pries the door open with {$handCount -
     [1] one hand!
     *[other] their bare hands!
         }.
+
+# todo marty
+oni-fighting-style-brawler =
+    [color={$color}]They are a brawler[/color]
+oni-fighting-style-swashbuckler =
+    [color={$color}]They are a Swashbuckler[/color]
+oni-fighting-style-spearmaster =
+    [color={$color}]They are a Spearmaster[/color]
+oni-fighting-style-wallsmasher =
+    [color={$color}]They are a WallSmasher[/color]
+oni-fighting-style-falseoni =
+    [color={$color}]They are Shunned.[/color]
+
+
+
+oni-martial-art-corporate-judo = They are trained in Corporate Judo.
+oni-martial-art-cqc = They are trained in Close Quarters Combat.
+oni-martial-art-sleeping-carp = They are trained in the Sleeping Carp technique.
+oni-martial-art-capoeira = They are trained in Capoeira.
+oni-martial-art-kung-fu-dragon = They are trained in the Dragon style of Kung Fu.
+oni-martial-art-ninjutsu = They are trained in Ninjutsu.
+oni-martial-art-hell-rip = They are trained in the Hell Rip technique.
