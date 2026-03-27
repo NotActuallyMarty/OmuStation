@@ -1,0 +1,31 @@
+- type: trait
+  id: FalseOni
+  name: trait-false-oni-name
+  description: trait-false-oni-desc
+  category: CulturalTraits
+  functions:
+    - !type:TraitRemoveComponent
+      componentsToRemove:
+        - type: CannotUseGunComponent
+        - type: Prying
+        - type: StrongArms
+        - type: BonusMeleeDamage
+        - type: LanguageKnowledge # We add it back without oni lang
+    - !type:
+  globalCost: 6 # If you forsaken the 'true' ways to use guns it should be costly.
+  requirements:
+    - !type:SpeciesRequirement
+      species:
+        - Oni
+    - !type:TraitsRequirement
+      traits:
+      - Foreigner
+      inverted: true
+  components:
+  - type: LanguageKnowledge # told you.
+    speaks:
+    - TauCetiBasic
+    understands:
+    - TauCetiBasic
+  - type: OniWeaponProficiency
+    proficiency: Shunned

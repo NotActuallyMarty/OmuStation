@@ -8,8 +8,9 @@ using Robust.Shared.Utility;
 using Content.Shared.Roles;
 using Content.Shared.Humanoid.Markings;
 using System.Linq;
+using Content.Shared.Traits;
 
-namespace Content.Shared._Omu.Roles;
+namespace Content.Shared._Omu.Roles.Jobrequirement;
 
 /// <summary>
 /// Requires a character to have a certain fixture mass

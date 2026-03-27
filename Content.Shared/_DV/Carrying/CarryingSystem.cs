@@ -36,6 +36,7 @@ using Content.Shared.Verbs;
 using Robust.Shared.Map.Components;
 using Robust.Shared.Network;
 using System.Numerics;
+using Content.Omu.Common.Traits.StrongArms;
 using Content.Shared._EinsteinEngines.Contests;
 using Content.Shared.Hands.EntitySystems;
 using Content.Shared.Mind.Components;
@@ -293,6 +294,10 @@ public sealed class CarryingSystem : EntitySystem
             return;
 
         _virtualItem.TrySpawnVirtualItemInHand(carried, carrier);
+
+        if (HasComp<CommonStrongArmsComponent>(carrier)) // Omu, one handed carry
+            return; // todo omustation refactor this whole system to allow multi-carry and whatnot
+
         _virtualItem.TrySpawnVirtualItemInHand(carried, carrier);
     }
 
@@ -348,6 +353,12 @@ public sealed class CarryingSystem : EntitySystem
 
     public bool CanCarry(EntityUid carrier, Entity<CarriableComponent> carried)
     {
+        var handsRequired = carried.Comp.FreeHandsRequired; // Omu edit start
+        if (TryComp<CommonStrongArmsComponent>(carrier, out var strongArms))
+            handsRequired -= strongArms.CarryBonus;
+        if (handsRequired <= 0) // Fuck off. (but it would be funny)
+            handsRequired = 1; // Omu end.
+
         return
             carrier != carried.Owner &&
             // can't carry multiple people, even if you have 4 hands it will break invariants when removing carryingcomponent for first carried person
@@ -358,7 +369,7 @@ public sealed class CarryingSystem : EntitySystem
             !HasComp<BeingCarriedComponent>(carrier) &&
             !HasComp<BeingCarriedComponent>(carried) &&
             // finally check that there are enough free hands
-            _hands.CountFreeHands(carrier) >= carried.Comp.FreeHandsRequired;
+            _hands.CountFreeHands(carrier) >= handsRequired;// Omu edit handsrequired
     }
 
     private TimeSpan GetPickupDuration(EntityUid carrier, EntityUid carried)

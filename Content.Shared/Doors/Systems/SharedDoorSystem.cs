@@ -51,6 +51,7 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
 using System.Linq;
+using Content.Omu.Common.Traits.StrongArms;
 using Content.Shared.Access.Components;
 using Content.Shared.Access.Systems;
 using Content.Shared.Administration.Logs;
@@ -267,7 +268,20 @@ public abstract partial class SharedDoorSystem : EntitySystem
             return;
 
         if (!TryToggleDoor(uid, door, args.User, predicted: true))
+        {
+            // Omu start
+            // This is a dumb way to avoid someone with pryingComp to start prying every door closed to them.
+            // Prying should still be handled on alt-click.
+            if (HasComp<PryingComponent>(args.User))
+            {
+                args.Handled = true;
+                return;
+            }
+            // Omu end
+
             _pryingSystem.TryPry(uid, args.User, out _);
+        }
+
 
         args.Handled = true;
     }

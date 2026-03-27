@@ -8,8 +8,9 @@ using Robust.Shared.Prototypes;
 using Robust.Shared.Serialization;
 using Robust.Shared.Utility;
 using Content.Shared.Roles;
+using Content.Shared.Traits;
 
-namespace Content.Shared._Omu.Roles;
+namespace Content.Shared._Omu.Roles.Jobrequirement;
 
 /// <summary>
 /// Requires a character to have a certain fixture mass
@@ -45,7 +46,7 @@ public sealed partial class WeightRequirement : JobRequirement
 
         // "fix1" is used for all collisions except for getting set on fire iirc.
         var avg = (profile.Width + profile.Height) / 2;
-        var radius = fixture.Fixtures["fix1"].Shape.Radius; 
+        var radius = fixture.Fixtures["fix1"].Shape.Radius;
         var density = fixture.Fixtures["fix1"].Density;
         var weight = MathF.Round(MathF.PI * MathF.Pow(radius * avg, 2) * density);
 

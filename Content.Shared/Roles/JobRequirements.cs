@@ -82,7 +82,6 @@
 
 using System.Diagnostics.CodeAnalysis;
 using Content.Shared.Preferences;
-using Content.Shared.Traits; // Omustation - Remake EE Traits System
 using Robust.Shared.Prototypes;
 using Robust.Shared.Serialization;
 using Robust.Shared.Utility;

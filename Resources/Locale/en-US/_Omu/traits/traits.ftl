@@ -72,3 +72,41 @@ trait-small-shit-name = Very Smol
 trait-small-shit-desc =
     You are tiny. So teeny tiny it makes you incredibly puntable to everyone around you.
     On the bright side, you are small enough to snugly fit inside large containers like duffle bags.
+
+# todo omustation make forced default traits so i can give people traits that they may change instead of hardcoding components.
+
+#trait-brawler-name = Brawler
+#trait-brawler-desc =
+#    You excel in raw, close-quarters combat, relying on brute force and crushing blows.
+#            Your melee Blunt bonus is increased to 30%, but your melee Slash and Piercing bonuses are reduced to 20%.
+
+trait-swashbuckler-name = Swashbuckler
+trait-swashbuckler-desc =
+    You are an expert in swordsmanship, wielding swords, knives, and other blades with unrivaled finesse.
+        Your melee Slash bonus is increased to 30%, but your melee Blunt and Piercing bonus is reduced to 20%.
+
+trait-spearmaster-name = Spearmaster
+trait-spearmaster-desc =
+    You have an outstanding proficiency with spears, wielding them as an extension of your body.
+        Your melee Piercing bonus is increased to 30%, but your melee Blunt and Slash bonus is reduced to 20%.
+
+trait-wallsmasher-name = WallSmasher
+trait-wallsmasher-desc =
+    You were never that great in battle, but your tactical wit and sapping capabilities are unmatched.
+        Your other melee bonuses are reduced to 10%, but your Structural damage bonus is further increased to 50%.
+
+# Cultural
+
+trait-false-oni-name = False Oni
+trait-false-oni-desc =
+    You are a foreigner amongst your own.
+    For one reason or another you have forsaken the strength of the True Oni ways. Or maybe you're just adopted.
+        You will lose any strength bonuses from melee weapons, carrying strength, hand prying, clothing movement bonuses, and Oni language.
+        Yet however sinful it may be to others, you will be able to use guns.
+
+        Be warned that you may be shunned among your peers, as they will know your true values upon examining you.
+
+trait-proficientfighter-name = Proficient Fighter
+trait-proficientfighter-desc =
+    You were the best fighter among your peers, you never gave up that thought.
+    In addition to recognizing Oni fighting styles, you recognize other unarmed martial arts, and your instincts alert you when someone is about to strike.

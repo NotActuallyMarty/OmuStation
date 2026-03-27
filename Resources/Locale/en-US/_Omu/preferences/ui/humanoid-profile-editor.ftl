@@ -13,6 +13,6 @@ humanoid-profile-editor-traits-header-no-maxtraits = You have {$pointsRemaining 
 trait-category-auditory = Auditory
 trait-category-mental = Mental
 trait-category-physical = Physical
-trait-category-psionics = Psionics
 trait-category-speech = Speech
 trait-category-visual = Visual
+trait-category-cultural = Cultural

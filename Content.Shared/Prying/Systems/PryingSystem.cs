@@ -76,10 +76,13 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
 using System.Diagnostics.CodeAnalysis;
+using Content.Omu.Common.Traits.StrongArms;
 using Content.Shared.Administration.Logs;
 using Content.Shared.Database;
 using Content.Shared.DoAfter;
 using Content.Shared.Doors.Components;
+using Content.Shared.Hands.Components;
+using Content.Shared.Hands.EntitySystems;
 using Content.Shared.Interaction;
 using Content.Shared.Popups;
 using Content.Shared.Prying.Components;
@@ -101,6 +104,7 @@ public sealed class PryingSystem : EntitySystem
     [Dependency] private readonly SharedAudioSystem _audioSystem = default!;
     [Dependency] private readonly SharedPopupSystem _popup = default!;
     [Dependency] private readonly UseDelaySystem _delay = default!; // Goobstation
+    [Dependency] private readonly SharedHandsSystem _hands = default!; // Omu
 
     public override void Initialize()
     {
@@ -185,6 +189,17 @@ public sealed class PryingSystem : EntitySystem
 
         // hand-prying is much slower
         var modifier = CompOrNull<PryingComponent>(user)?.SpeedModifier ?? unpoweredComp.PryModifier;
+        // Omu start
+        // Hand prying based on the number of free hands. Default unpoweredComp.PryModifier at 2 hands.
+        if (!HasComp<PryingComponent>(user))
+        {
+            if (!TryComp<HandsComponent>(user, out var hands) || _hands.GetHandCount(user) < 1) // this fixes bug wherein you dont need hands to pry shit. todo move this upstream.
+                return StartPry(target, user, null, modifier, out id);
+
+            var singleHandPryTime = unpoweredComp.PryModifier / 2;
+            modifier = singleHandPryTime * _hands.CountFreeHands(user);
+        }
+        // Omu end
         return StartPry(target, user, user, modifier, out id); // Goob edit
     }
 

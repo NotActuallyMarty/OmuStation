@@ -10,11 +10,6 @@
   id: PhysicalTraits
   name: trait-category-physical
 
-# We don't have psionics.
-#- type: traitCategory
-#  id: PsionicsTraits
-#  name: trait-category-psionics
-
 # a SpeechTraits category has already been added upstream, no need to remake it here.
 # - type: traitCategory
 #    id: SpeechTraits
@@ -23,3 +18,8 @@
 - type: traitCategory
   id: VisualTraits
   name: trait-category-visual
+
+# Use this sparingly it should be reserved for lore and overall character building that is outside of game balance.
+- type: traitCategory
+  id: CulturalTraits
+  name: trait-category-cultural

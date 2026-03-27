@@ -92,7 +92,7 @@ public sealed partial class TraitPrototype : IPrototype
     /// <summary>
     ///     The number of trait points required for this trait.
     /// </summary>
-    /// <remarks
+    /// <remarks>
     ///     This is an Omustation change, and is distinct from the upstream wizden cost field. This is for a few reasons:
     ///     First, is that traits points upstream are category specific. So, if you take a trait for 2 points from the "Languages" category, it will ONLY
     ///     use up the trait points availible to that category. Hence, these are "global".
@@ -103,7 +103,7 @@ public sealed partial class TraitPrototype : IPrototype
     public int GlobalCost = 0;
 
     /// <summary>
-    ///     Whether this trait will increment MaxTraits or not. 
+    ///     Whether this trait will increment MaxTraits or not.
     ///     Useful for small traits, such as accents, which don't affect gameplay all that much and should be selectable at no cost.
     /// </summary>
     [DataField]

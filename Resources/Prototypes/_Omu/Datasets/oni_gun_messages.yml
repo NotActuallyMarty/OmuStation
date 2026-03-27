@@ -1,0 +1,17 @@
+- type: localizedDataset
+  id: OniShootGunMessage
+  values:
+    prefix: oni-cannot-shoot-guns-
+    count: 8
+
+- type: localizedDataset
+  id: OniPickupGunMessage
+  values:
+    prefix: oni-picking-up-gun-
+    count: 8
+
+- type: localizedDataset # todo omu add more here
+  id: OniPryingMessage
+  values:
+    prefix: oni-prying-door-
+    count: 1

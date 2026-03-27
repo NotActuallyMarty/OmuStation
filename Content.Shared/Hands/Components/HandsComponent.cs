@@ -141,6 +141,15 @@ public sealed partial class HandsComponent : Component
     /// </summary>
     [DataField]
     public bool CanBeStripped = true;
+
+    /// <summary>
+    /// Omu Edit.
+    /// Message to use when hand prying doors.
+    /// Reflects to user with how many hands they're prying.
+    /// todo use this for better limb support i.e. Xelthia not having "hands".
+    /// </summary>
+    [DataField]
+    public LocId HandPryMessage = "hand-pry-message-generic";
 }
 
 [DataDefinition]

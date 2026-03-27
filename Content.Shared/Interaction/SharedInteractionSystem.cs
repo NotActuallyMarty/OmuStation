@@ -452,7 +452,8 @@ namespace Content.Shared.Interaction
                 return true;
             }
 
-            UserInteraction(user.Value, coords, uid, altInteract: true, checkAccess: ShouldCheckAccess(user.Value));
+            // Omu Alt interact in-world usage todo omustation kill this
+            UserInteraction(user.Value, coords, !Deleted(uid) ? uid : null, altInteract: true, checkAccess: ShouldCheckAccess(user.Value)); // Omu
 
             return false;
         }
@@ -576,7 +577,9 @@ namespace Content.Shared.Interaction
             // empty-hand interactions
             // combat mode hand interactions will always be true here -- since
             // they check this earlier before returning in
-            if (!TryGetUsedEntity(user, out var used, checkCanUse))
+            if (!TryGetUsedEntity(user, out var used, checkCanUse)
+                && !altInteract // Omu Alt interact in-world usage todo omustation kill this
+                )
             {
                 if (inRangeUnobstructed && target != null)
                     InteractHand(user, target.Value);
@@ -584,11 +587,15 @@ namespace Content.Shared.Interaction
                 return;
             }
 
-            if (target == used)
+            if (target == used
+                && target != null // Omu Alt interact in-world usage todo omustation kill this
+                )
             {
                 UseInHandInteraction(user, target.Value, checkCanUse: false, checkCanInteract: false);
                 return;
             }
+
+            used ??= user;  // Omu Alt interact in-world usage todo omustation kill this
 
             if (inRangeUnobstructed && target != null)
             {

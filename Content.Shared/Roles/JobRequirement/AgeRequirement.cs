@@ -76,6 +76,7 @@
 
 using System.Diagnostics.CodeAnalysis;
 using Content.Shared.Preferences;
+using Content.Shared.Traits;
 using JetBrains.Annotations;
 using Robust.Shared.Prototypes;
 using Robust.Shared.Serialization;
