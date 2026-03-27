@@ -20,16 +20,11 @@ oni-prying-door-1 = {$entityIdentityName} pries the door open with {$handCount -
         }.
 
 # todo marty
-oni-fighting-style-brawler =
-    [color={$color}]They are a brawler[/color]
-oni-fighting-style-swashbuckler =
-    [color={$color}]They are a Swashbuckler[/color]
-oni-fighting-style-spearmaster =
-    [color={$color}]They are a Spearmaster[/color]
-oni-fighting-style-wallsmasher =
-    [color={$color}]They are a WallSmasher[/color]
-oni-fighting-style-falseoni =
-    [color={$color}]They are Shunned.[/color]
+oni-fighting-style-brawler = [color={$color}]They are a brawler[/color]
+oni-fighting-style-swashbuckler = [color={$color}]They are a Swashbuckler[/color]
+oni-fighting-style-spearmaster = [color={$color}]They are a Spearmaster[/color]
+oni-fighting-style-wallsmasher = [color={$color}]They are a WallSmasher[/color]
+oni-fighting-style-falseoni = [color={$color}]They are Shunned.[/color]
 
 
 

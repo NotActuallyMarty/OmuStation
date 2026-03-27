@@ -36,10 +36,10 @@ public sealed partial class CannotUseGunComponentComponent : Component
     [DataField, AutoNetworkedField]
     public bool RespectOriginalSpecies;
 
-    [DataField(required: true), AutoNetworkedField]
+    [DataField, AutoNetworkedField]
     public ProtoId<LocalizedDatasetPrototype> UsingGunMessage;
 
-    [DataField(required: true), AutoNetworkedField]
+    [DataField, AutoNetworkedField]
     public ProtoId<LocalizedDatasetPrototype> PickUpGunMessage;
 
     [DataField, AutoNetworkedField]

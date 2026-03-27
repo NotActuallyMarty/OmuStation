@@ -1,9 +1,9 @@
-using Content.Shared.Dataset;
+/*using Content.Shared.Dataset;
 using Robust.Shared.GameStates;
 using Robust.Shared.Prototypes;
 using Robust.Shared.Serialization;
 
-namespace Content.Omu.Shared.Species.Oni;
+namespace Content.Omu.Client.Species.Oni;
 
 // todo ive not written this at the time of writing but its probably ass rework later.
 
@@ -51,7 +51,8 @@ public sealed partial class OniWeaponProficiencyComponent : Component
     /// <summary>
     /// Set of messages for instinctual fighting popups. Does not matter if FightingInstinct is false.
     /// </summary>
-    //[DataField, AutoNetworkedField]
-    //public ProtoId<LocalizedDatasetPrototype>? InstinctMessages;
+    [DataField, AutoNetworkedField]
+    public ProtoId<LocalizedDatasetPrototype> InstinctMessages;
 }
 
+*/

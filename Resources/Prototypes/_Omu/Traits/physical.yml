@@ -239,10 +239,12 @@
 
 - type: trait
   id: Swashbuckler
-  name: trait-small-shit-name
-  description: trait-small-shit-desc
+  name: trait-swashbuckler-name
+  description: trait-swashbuckler-desc
   category: PhysicalTraits
   components:
+  - type: OniWeaponProficiency
+    proficiency: SwashBuckler
   - type: BonusMeleeDamage
     damageModifierSet:
       coefficients:

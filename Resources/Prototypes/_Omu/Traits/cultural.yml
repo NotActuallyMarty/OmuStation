@@ -7,6 +7,7 @@
     - !type:TraitRemoveComponent
       componentsToRemove:
         - type: CannotUseGunComponent
+          species: Oni # This is so dumb it requires required shit even when removing.
         - type: Prying
         - type: StrongArms
         - type: BonusMeleeDamage

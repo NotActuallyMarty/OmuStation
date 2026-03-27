@@ -89,6 +89,7 @@
   - type: Prying
   - type: StrongArms
     pryingMessage: OniPryingMessage
+  - type: OniWeaponProficiency
 
 - type: entity
   save: false
