@@ -686,7 +686,7 @@ namespace Content.IntegrationTests.Tests
         /// if you actually manage to only catch bad ents on this when two entities exist at the same time in separate maps,
         /// dm me, @notactuallymarty, I've never seen that shit.
         /// todo marty this is kinda shitcode.
-        /// </summary>
+        /// </summary>s
         [Test, Explicit]
         public async Task FindBadPrototype()
         {
