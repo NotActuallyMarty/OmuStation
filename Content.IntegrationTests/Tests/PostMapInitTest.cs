@@ -470,8 +470,29 @@ namespace Content.IntegrationTests.Tests
             return true;
         }
 
-        [Test, TestCaseSource(nameof(GameMapsInCurrentPool))] // Goob edit - GameMapsInCurrentPool only
-        public async Task GameMapsLoadableTest(string mapProto)
+        [Test]
+        [NonParallelizable]
+        public async Task GameMapsLoadableTest()
+        {
+            const int concurrentMaps = 4;
+            using var semaphore = new SemaphoreSlim(concurrentMaps);
+
+            await Task.WhenAll(GameMapsInCurrentPool.Select(async mapProto =>
+            {
+                await semaphore.WaitAsync();
+
+                try
+                {
+                    await GameMapLoadableTest(mapProto);
+                }
+                finally
+                {
+                    semaphore.Release();
+                }
+            }));
+        }
+
+        private async Task GameMapLoadableTest(string mapProto)
         {
             await using var pair = await PoolManager.GetServerClient(new PoolSettings
             {
